@@ -1,8 +1,11 @@
 <script>
-  // Rediriger automatiquement vers index.html pour les routes React Router
   const pathname = window.location.pathname
+  const route = pathname.split('/').pop() || 'home' // Default to 'home' if route is empty
+
   const redirectUrl = pathname.startsWith('/budget-tracker/')
-    ? `/budget-tracker/index.html`
-    : '/index.html'
-  window.location.href = redirectUrl
+    ? `/budget-tracker/${route}`
+    : `/budget-tracker/home`
+
+  // Redirect only if the current URL is different from the target URL
+  if (pathname !== redirectUrl) window.location.href = redirectUrl
 </script>
