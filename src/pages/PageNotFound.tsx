@@ -1,4 +1,4 @@
-import PageNav from '@/components/header/PageNav';
+import PageNav from '@/components/header/PageNav'
 
 function PageNotFound() {
   return (
@@ -6,7 +6,7 @@ function PageNotFound() {
       <PageNav />
       Page not found
     </div>
-  );
+  )
 }
 
-export default PageNotFound;
+export default PageNotFound

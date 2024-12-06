@@ -2,9 +2,10 @@ import { useState } from 'react'
 import { Input } from '../ui/input'
 import CheckButton from '../buttons/CheckButton'
 import { useMoney } from '@/context/MoneyContext'
+import { AddTransaction } from '@/types/Money'
 
 type AddTransactionInputProps = {
-  addTransaction: (amount: number) => void
+  addTransaction: AddTransaction
   withdrawRef?: React.MutableRefObject<null>
 }
 

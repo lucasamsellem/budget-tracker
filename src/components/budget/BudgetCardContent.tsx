@@ -2,9 +2,10 @@ import { useMoney } from '@/context/MoneyContext'
 import { CardContent } from '../ui/card'
 import SliderBar from './SliderBar'
 import { useState } from 'react'
+import { IsChecked } from '@/types/Money'
 
 type BudgetCardContentProps = {
-  isChecked: boolean
+  isChecked: IsChecked
 }
 
 function BudgetCardContent({ isChecked }: BudgetCardContentProps) {

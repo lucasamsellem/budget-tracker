@@ -14,13 +14,13 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart'
-import { ExpenseTypes } from '@/types/ExpenseTypes'
+import { CategoriesColor, ExpensesListType } from '@/types/Expense'
 import { useEffect, useState } from 'react'
 import { capitalizeFirstLetter } from '@/utils/capitalizeFirstLetter'
 
 type PieChartProps = {
-  expensesList: ExpenseTypes[]
-  categoriesColor: Record<string, string>
+  expensesList: ExpensesListType
+  categoriesColor: CategoriesColor
 }
 
 type ChartData = {

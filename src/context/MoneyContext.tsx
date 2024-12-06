@@ -4,8 +4,8 @@ import { createContext, useContext, ReactNode } from 'react'
 type MoneyContextProps = {
   transactions: number[]
   onTransactions: (value: number[] | ((prevValue: number[]) => number[])) => void
-  budgetLimit: number | undefined
-  onBudgetLimit: (limitation: number | undefined) => void
+  budgetLimit: number | null
+  onBudgetLimit: (limitation: number | null) => void
   balanceAmount: number
   handleTransactions: (amount: number, isAdd: boolean) => void
 }
@@ -19,7 +19,7 @@ const MoneyContext = createContext<MoneyContextProps | undefined>(undefined)
 function MoneyProvider({ children }: MoneyProviderProps) {
   // States
   const [transactions, setTransactions] = useLocalStorage<number[]>('transactions', [])
-  const [budgetLimit, setBudgetLimit] = useLocalStorage<number | undefined>('budgetLimit', undefined)
+  const [budgetLimit, setBudgetLimit] = useLocalStorage<number | null>('budgetLimit', null)
 
   // Derived state
   const balanceAmount = transactions.reduce((acc, cur) => acc + cur, 0)

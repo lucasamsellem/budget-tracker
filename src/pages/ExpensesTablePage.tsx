@@ -1,15 +1,14 @@
 import ExpenseForm from '@/components/expenses/ExpenseForm'
-import { formatAmount } from '@/utils/formatAmount'
 import InsufficientBalanceAlert from '@/components/budget/InsufficientBalanceAlert'
 import { useMoney } from '@/context/MoneyContext'
 import { useState } from 'react'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
-import { ExpenseTypes } from '@/types/ExpenseTypes'
+import { CategoriesColor, Expense } from '@/types/Expense'
 import { PieChartComponent } from '@/components/expenses/PieChart'
 import ExpensesTable from '@/components/expenses/ExpensesTable'
 import Header from '@/components/header/Header'
 
-const categoriesColor: Record<string, string> = {
+const categoriesColor: CategoriesColor = {
   housing: '#e76e50',
   subscriptions: '#2a9d90',
   entertainment: '#274754',
@@ -22,20 +21,20 @@ function ExpensesTablePage() {
   const { budgetLimit } = useMoney()
 
   // State
-  const initialExpenseState: ExpenseTypes = {
+  const initialExpenseState: Expense = {
     name: '',
     category: '',
     price: 0,
   }
 
-  const [expense, setExpense] = useState<ExpenseTypes>(initialExpenseState)
-  const [expensesList, setExpensesList] = useLocalStorage<ExpenseTypes[]>('expensesList', [])
+  const [expense, setExpense] = useState<Expense>(initialExpenseState)
+  const [expensesList, setExpensesList] = useLocalStorage<Expense[]>('expensesList', [])
 
   // Derived state
   const totalExpensesPrice = expensesList.reduce((total, exp) => total + exp.price, 0)
 
   const budgetAmountLeft =
-    budgetLimit === undefined ? undefined : Math.abs(formatAmount(budgetLimit - totalExpensesPrice))
+    budgetLimit !== null && budgetLimit !== undefined ? budgetLimit - totalExpensesPrice : 0
 
   return (
     <>

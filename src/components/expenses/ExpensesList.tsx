@@ -2,15 +2,15 @@ import CheckButton from '../buttons/CheckButton'
 import DeleteBtn from '../buttons/DeleteBtn'
 import { TableCell, TableRow } from '../ui/table'
 import ExpenseNameInput from './ExpenseNameInput'
-import { ExpenseTypes } from '@/types/ExpenseTypes'
+import { Expense, CategoriesColor, ExpensesListType, OnExpensesList } from '@/types/Expense'
 import { useState } from 'react'
 import { useMoney } from '@/context/MoneyContext'
 import { capitalizeFirstLetter } from '@/utils/capitalizeFirstLetter'
 
 type ExpensesListProps = {
-  expensesList: ExpenseTypes[]
-  onExpensesList: (value: ExpenseTypes[] | ((prevValue: ExpenseTypes[]) => ExpenseTypes[])) => void
-  categoriesColor: Record<string, string>
+  expensesList: ExpensesListType
+  onExpensesList: OnExpensesList
+  categoriesColor: CategoriesColor
 }
 
 function ExpensesList({ expensesList, onExpensesList, categoriesColor }: ExpensesListProps) {
@@ -21,7 +21,7 @@ function ExpensesList({ expensesList, onExpensesList, categoriesColor }: Expense
   const [activeCell, setActiveCell] = useState<number | null>(null)
 
   // Event handlers
-  const handleExpenseUpdate = (updatedExpense: ExpenseTypes, index: number) => {
+  const handleExpenseUpdate = (updatedExpense: Expense, index: number) => {
     onExpensesList(prev => prev.map((exp, i) => (i === index ? updatedExpense : exp)))
   }
 
@@ -49,7 +49,7 @@ function ExpensesList({ expensesList, onExpensesList, categoriesColor }: Expense
           <form className='flex items-center'>
             <ExpenseNameInput
               expense={exp}
-              onExpense={updatedExp => handleExpenseUpdate(updatedExp, i)}
+              onExpenseUpdate={updatedExp => handleExpenseUpdate(updatedExp, i)}
             />
 
             <CheckButton

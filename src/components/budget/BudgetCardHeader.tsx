@@ -3,10 +3,11 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import InfoBtn from '../buttons/InfoBtn'
 import { Switch } from '../ui/switch'
 import { useMoney } from '@/context/MoneyContext'
+import { IsChecked, OnIsChecked } from '@/types/Money'
 
 type BudgetCardHeaderProps = {
-  isChecked: boolean
-  onIsChecked: (value: boolean | ((prevValue: boolean) => boolean)) => void
+  isChecked: IsChecked
+  onIsChecked: OnIsChecked
 }
 
 function BudgetCardHeader({ isChecked, onIsChecked }: BudgetCardHeaderProps) {
@@ -16,7 +17,7 @@ function BudgetCardHeader({ isChecked, onIsChecked }: BudgetCardHeaderProps) {
   function handleChecked() {
     onIsChecked(prev => {
       const newValue = !prev
-      if (!newValue) onBudgetLimit(undefined)
+      if (!newValue) onBudgetLimit(null)
       return newValue
     })
   }

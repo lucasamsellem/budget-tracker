@@ -1,20 +1,33 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '../ui/button'
 import { Input } from '../ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import ExpenseNameInput from './ExpenseNameInput'
 import { useMoney } from '@/context/MoneyContext'
-import { ExpenseTypes } from '@/types/ExpenseTypes'
+import { Expense, OnExpense, OnExpensesList } from '@/types/Expense'
+import { BudgetAmountLeft } from '@/types/Money'
 
 type ExpenseFormProps = {
-  initialExpenseState: ExpenseTypes
-  expense: ExpenseTypes
-  onExpense: React.Dispatch<React.SetStateAction<ExpenseTypes>>
-  budgetAmountLeft: number | undefined
-  onExpensesList: (value: ExpenseTypes[] | ((prevValue: ExpenseTypes[]) => ExpenseTypes[])) => void
+  initialExpenseState: Expense
+  expense: Expense
+  onExpense: OnExpense
+  onExpensesList: OnExpensesList
+  budgetAmountLeft: BudgetAmountLeft
 }
 
-function ExpenseForm({ expense, onExpense, onExpensesList, budgetAmountLeft, initialExpenseState }: ExpenseFormProps) {
+function ExpenseForm({
+  expense,
+  onExpense,
+  onExpensesList,
+  budgetAmountLeft,
+  initialExpenseState,
+}: ExpenseFormProps) {
   // Contexts
   const { onTransactions } = useMoney()
 
@@ -29,7 +42,7 @@ function ExpenseForm({ expense, onExpense, onExpensesList, budgetAmountLeft, ini
     if (hasEmptyFields) return alert('Please fill in all the required information.')
 
     // Then returns Shadcn's error dialog
-    if (expense.price > budgetAmountLeft) return alert('impossible')
+    if (expense.price > budgetAmountLeft) return
 
     onExpensesList(prev => [...prev, expense])
     onTransactions(prev => [...prev, -expense.price])

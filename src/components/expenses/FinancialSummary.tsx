@@ -1,11 +1,12 @@
 import { formatAmount } from '@/utils/formatAmount'
 import { TableCell, TableRow } from '../ui/table'
 import BalanceAmount from '../balance/BalanceAmount'
-import BudgetAmount from '../budget/BudgetAmount'
+import { TotalExpensesPrice } from '@/types/Expense'
+import { BudgetAmountLeft } from '@/types/Money'
 
 type FinancialSummaryProps = {
-  budgetAmountLeft?: number
-  totalExpensesPrice: number
+  totalExpensesPrice: TotalExpensesPrice
+  budgetAmountLeft: BudgetAmountLeft
 }
 
 function FinancialSummary({ budgetAmountLeft, totalExpensesPrice }: FinancialSummaryProps) {
@@ -17,7 +18,7 @@ function FinancialSummary({ budgetAmountLeft, totalExpensesPrice }: FinancialSum
 
       {budgetAmountLeft && (
         <TableCell>
-          Left: <BudgetAmount amount={budgetAmountLeft} />
+          Left: <strong className='text-orange'>{budgetAmountLeft}€</strong>
         </TableCell>
       )}
 

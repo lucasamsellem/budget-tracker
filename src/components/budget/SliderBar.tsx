@@ -2,11 +2,12 @@ import { Slider } from '@/components/ui/slider'
 import { useMoney } from '@/context/MoneyContext'
 import { CardFooter } from '../ui/card'
 import CheckButton from '../buttons/CheckButton'
+import { OnSliderValue, SliderDefaultValue, SliderValue } from '@/types/Money'
 
 type SliderBarProps = {
-  sliderDefaultValue: number
-  sliderValue: number
-  onSliderValue: React.Dispatch<React.SetStateAction<number>>
+  sliderDefaultValue: SliderDefaultValue
+  sliderValue: SliderValue
+  onSliderValue: OnSliderValue
 }
 
 function SliderBar({ sliderDefaultValue, sliderValue, onSliderValue }: SliderBarProps) {

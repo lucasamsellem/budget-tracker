@@ -2,14 +2,20 @@ import { Table, TableBody, TableFooter, TableHeader } from '@/components/ui/tabl
 import ExpensesCategories from './ExpensesCategories'
 import ExpensesList from './ExpensesList'
 import FinancialSummary from './FinancialSummary'
-import { ExpenseTypes } from '@/types/ExpenseTypes'
+import {
+  ExpensesListType,
+  OnExpensesList,
+  TotalExpensesPrice,
+  CategoriesColor,
+} from '@/types/Expense'
+import { BudgetAmountLeft } from '@/types/Money'
 
 type ExpensesTableProps = {
-  expensesList: ExpenseTypes[]
-  onExpensesList: (value: ExpenseTypes[] | ((prevValue: ExpenseTypes[]) => ExpenseTypes[])) => void
-  categoriesColor: Record<string, string>
-  budgetAmountLeft?: number
-  totalExpensesPrice: number
+  expensesList: ExpensesListType
+  onExpensesList: OnExpensesList
+  categoriesColor: CategoriesColor
+  totalExpensesPrice: TotalExpensesPrice
+  budgetAmountLeft: BudgetAmountLeft
 }
 
 function ExpensesTable({
