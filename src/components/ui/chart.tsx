@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as RechartsPrimitive from 'recharts'
-import { NameType } from 'recharts/types/component/DefaultTooltipContent'
+// import { NameType } from 'recharts/types/component/DefaultTooltipContent'
 
 import { cn } from '@/lib/utils'
 
@@ -126,7 +126,7 @@ const ChartTooltipContent = React.forwardRef<
   ) => {
     const { config } = useChart()
 
-    const tooltipCategory = payload?.[0]?.[nameKey as keyof (typeof payload)[0]] as NameType | null
+    // const tooltipCategory = payload?.[0]?.[nameKey as keyof (typeof payload)[0]] as NameType | null
 
     const tooltipLabel = React.useMemo(() => {
       if (hideLabel || !payload?.length) {
@@ -174,8 +174,9 @@ const ChartTooltipContent = React.forwardRef<
             const key = `${nameKey || item.name || item.dataKey || 'value'}`
             const itemConfig = getPayloadConfigFromPayload(config, item, key)
             const indicatorColor = color || item.payload.fill || item.color
-            if (typeof tooltipCategory === 'string') {
-              onTooltipCategory(tooltipCategory)
+
+            if (typeof item.name === 'string') {
+              onTooltipCategory(item.name ?? '')
             }
 
             return (

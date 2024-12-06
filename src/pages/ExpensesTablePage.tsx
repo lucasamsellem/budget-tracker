@@ -36,8 +36,6 @@ function ExpensesTablePage() {
   const budgetAmountLeft =
     budgetLimit !== null && budgetLimit !== undefined ? budgetLimit - totalExpensesPrice : 0
 
-  console.log(budgetLimit)
-
   return (
     <>
       <Header />
