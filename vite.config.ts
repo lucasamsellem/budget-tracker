@@ -4,7 +4,7 @@ import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/budget-tracker/home',
+  base: '/budget-tracker',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
