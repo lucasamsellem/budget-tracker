@@ -1,26 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script>
-      // Get the current path
-      const pathname = window.location.pathname
-
-      // Extract the route after the last slash
-      const route = pathname.split('/').pop() || 'home' // Default to 'home' if no route is specified
-
-      // Determine the target URL for redirection
-      const redirectUrl = `/budget-tracker/${route}`
-
-      // Prevent infinite redirection loop
-      if (pathname !== redirectUrl) {
-        window.location.href = redirectUrl
-      }
-    </script>
+    <meta http-equiv="refresh" content="0; URL=/budget-tracker/" />
   </head>
   <body>
-    <p>
-      If you are not redirected automatically,
-      <a id="redirect-link" href="/budget-tracker/home">click here</a>.
-    </p>
+    <p>If you are not redirected automatically, <a href="/budget-tracker/">click here</a>.</p>
   </body>
 </html>
