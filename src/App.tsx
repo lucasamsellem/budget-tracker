@@ -24,10 +24,10 @@ function App() {
         <MoneyProvider>
           <BrowserRouter>
             <Routes>
-              <Route index element={<HomePage />} />
+              <Route path='budget-tracker/home' element={<HomePage />} />
 
               <Route
-                path='budget'
+                path='budget-tracker/budget'
                 element={
                   <ProtectedRoute>
                     <BudgetPage />
@@ -36,7 +36,7 @@ function App() {
               />
 
               <Route
-                path='table'
+                path='budget-tracker/table'
                 element={
                   <ProtectedRoute>
                     <ExpensesTablePage />

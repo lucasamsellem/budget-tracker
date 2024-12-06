@@ -8,16 +8,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { Expense } from '@/types/Expense'
 import { useMoney } from '@/context/MoneyContext'
 import { BudgetAmountLeft } from '@/types/Money'
 
-type InsufficientBalanceAlertProps = {
-  expense: Expense
+type InsufficientAmountAlertProps = {
+  expensePrice: number
   budgetAmountLeft: BudgetAmountLeft
 }
 
-function InsufficientBalanceAlert({ expense, budgetAmountLeft }: InsufficientBalanceAlertProps) {
+function InsufficientAmountAlert({ expensePrice, budgetAmountLeft }: InsufficientAmountAlertProps) {
   // Context
   const { balanceAmount } = useMoney()
 
@@ -25,8 +24,8 @@ function InsufficientBalanceAlert({ expense, budgetAmountLeft }: InsufficientBal
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   // Derived
-  const isBudgetExceeded = expense.price > budgetAmountLeft
-  const isBalanceInsufficient = expense.price > balanceAmount
+  const isBudgetExceeded = budgetAmountLeft && expensePrice > budgetAmountLeft
+  const isBalanceInsufficient = balanceAmount && expensePrice > balanceAmount
 
   useEffect(() => {
     if (isBudgetExceeded || isBalanceInsufficient) setIsDialogOpen(true)
@@ -44,14 +43,13 @@ function InsufficientBalanceAlert({ expense, budgetAmountLeft }: InsufficientBal
             {isBudgetExceeded ? (
               <>
                 You cannot add this expense as it will create an excess of{' '}
-                <strong className='text-orange'>{expense.price - budgetAmountLeft}€</strong> based
-                on the budget limit you have previsouly defined.
+                <strong className='text-orange'>{expensePrice - budgetAmountLeft}€</strong> based on
+                the budget limit you have previsouly defined
               </>
             ) : (
               <>
-                You must add{' '}
-                <strong className='text-green'>{expense.price - balanceAmount}€</strong> to your
-                account.
+                You must add <strong className='text-green'>{expensePrice - balanceAmount}€</strong>{' '}
+                to your account
               </>
             )}
           </AlertDialogDescription>
@@ -66,4 +64,4 @@ function InsufficientBalanceAlert({ expense, budgetAmountLeft }: InsufficientBal
   )
 }
 
-export default InsufficientBalanceAlert
+export default InsufficientAmountAlert

@@ -4,7 +4,7 @@ import Header from '@/components/header/Header'
 import BudgetCardHeader from '@/components/budget/BudgetCardHeader'
 import BudgetCardContent from '@/components/budget/BudgetCardContent'
 
-function BudgetProgressPage() {
+function BudgetPage() {
   // State
   const [isChecked, setIsChecked] = useLocalStorage<boolean>('isChecked', false)
 
@@ -23,4 +23,4 @@ function BudgetProgressPage() {
   )
 }
 
-export default BudgetProgressPage
+export default BudgetPage

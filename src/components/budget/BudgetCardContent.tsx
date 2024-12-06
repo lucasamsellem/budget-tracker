@@ -12,7 +12,7 @@ function BudgetCardContent({ isChecked }: BudgetCardContentProps) {
   const { budgetLimit } = useMoney()
 
   // State
-  const sliderDefaultValue = 25
+  const sliderDefaultValue = 5
   const [sliderValue, setSliderValue] = useState(sliderDefaultValue)
 
   return (

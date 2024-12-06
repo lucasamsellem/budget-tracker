@@ -16,11 +16,11 @@ function FinancialSummary({ budgetAmountLeft, totalExpensesPrice }: FinancialSum
         <BalanceAmount />
       </TableCell>
 
-      {budgetAmountLeft && (
+      {budgetAmountLeft ? (
         <TableCell>
           Left: <strong className='text-orange'>{budgetAmountLeft}€</strong>
         </TableCell>
-      )}
+      ) : null}
 
       <TableCell className='text-right'>
         Total: <strong>{formatAmount(totalExpensesPrice)}€</strong>

@@ -42,7 +42,7 @@ function ExpenseForm({
     if (hasEmptyFields) return alert('Please fill in all the required information.')
 
     // Then returns Shadcn's error dialog
-    if (expense.price > budgetAmountLeft) return
+    if (budgetAmountLeft && expense.price > budgetAmountLeft) return
 
     onExpensesList(prev => [...prev, expense])
     onTransactions(prev => [...prev, -expense.price])

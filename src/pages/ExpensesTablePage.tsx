@@ -1,5 +1,5 @@
 import ExpenseForm from '@/components/expenses/ExpenseForm'
-import InsufficientBalanceAlert from '@/components/budget/InsufficientBalanceAlert'
+import InsufficientAmountAlert from '@/components/budget/InsufficientAmountAlert'
 import { useMoney } from '@/context/MoneyContext'
 import { useState } from 'react'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
@@ -36,12 +36,13 @@ function ExpensesTablePage() {
   const budgetAmountLeft =
     budgetLimit !== null && budgetLimit !== undefined ? budgetLimit - totalExpensesPrice : 0
 
+  console.log(budgetLimit)
+
   return (
     <>
       <Header />
 
-      {/* Triggers only when an amount is exceeding */}
-      <InsufficientBalanceAlert expense={expense} budgetAmountLeft={budgetAmountLeft} />
+      <InsufficientAmountAlert expensePrice={expense.price} budgetAmountLeft={budgetAmountLeft} />
 
       <main className='grid grid-cols-[auto_auto_auto] gap-10 justify-items-start flex-1 px-8 dark:text-white'>
         <section>
