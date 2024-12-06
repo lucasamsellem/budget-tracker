@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import ExpensesTablePage from './pages/ExpensesTablePage'
 import HomePage from './pages/HomePage'
 import { ThemeProvider } from './components/ui/theme-provider'
@@ -22,12 +22,14 @@ function App() {
     <ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
       <div className='flex min-h-screen flex-col dark:bg-zinc-950'>
         <MoneyProvider>
-          <BrowserRouter>
+          <BrowserRouter basename='/budget-tracker'>
             <Routes>
-              <Route path='budget-tracker/home' element={<HomePage />} />
+              {/* Redirect from the root URL to '/home' */}
+              <Route path='/' element={<Navigate to='/home' replace />} />
+              <Route path='/home' element={<HomePage />} />
 
               <Route
-                path='budget-tracker/budget'
+                path='/budget'
                 element={
                   <ProtectedRoute>
                     <BudgetPage />
@@ -36,7 +38,7 @@ function App() {
               />
 
               <Route
-                path='budget-tracker/table'
+                path='/table'
                 element={
                   <ProtectedRoute>
                     <ExpensesTablePage />

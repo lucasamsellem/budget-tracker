@@ -24,17 +24,17 @@ function PageNav() {
     <nav className='dark:text-white text-zinc-900'>
       <ul className='flex gap-5'>
         <li>
-          <NavLinkStyled page='/budget-tracker/home'>Home</NavLinkStyled>
+          <NavLinkStyled page='/home'>Home</NavLinkStyled>
         </li>
 
         {/* User must add funds to their account before accessing other pages */}
         {balanceAmount ? (
           <>
             <li>
-              <NavLinkStyled page='/budget-tracker/budget'>Budget</NavLinkStyled>
+              <NavLinkStyled page='/budget'>Budget</NavLinkStyled>
             </li>
             <li>
-              <NavLinkStyled page='/budget-tracker/table'>Table</NavLinkStyled>
+              <NavLinkStyled page='/table'>Table</NavLinkStyled>
             </li>
           </>
         ) : null}
