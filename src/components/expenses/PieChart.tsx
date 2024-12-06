@@ -56,10 +56,12 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function PieChartComponent({ expensesList, categoriesColor }: PieChartProps) {
+  // State
   const [chartData, setChartData] = useState<ChartData[]>([])
   const [tooltipCategory, setTooltipCategory] = useState('')
   const date = new Date().toLocaleDateString()
 
+  // Derived
   const topCategory = chartData.reduce(
     (max, current) => (current.price > max.price ? current : max),
     { category: '', price: 0 }
@@ -90,6 +92,11 @@ export function PieChartComponent({ expensesList, categoriesColor }: PieChartPro
     setChartData(newChartData)
   }, [expensesList, categoriesColor])
 
+  // A continuer
+  // useEffect(() => {
+  //   setTooltipCategory('')
+  // }, [setTooltipCategory, chartData])
+
   return (
     <Card className='min-w-[20rem]'>
       <CardHeader className='items-center pb-0'>
@@ -114,7 +121,7 @@ export function PieChartComponent({ expensesList, categoriesColor }: PieChartPro
               data={chartData}
               dataKey='price'
               nameKey='category'
-              innerRadius={65}
+              innerRadius={70}
               strokeWidth={5}
             >
               <Label
@@ -151,21 +158,25 @@ export function PieChartComponent({ expensesList, categoriesColor }: PieChartPro
         </ChartContainer>
       </CardContent>
 
-      {tooltipCategory && (
-        <CardFooter className='flex-col gap-2 text-sm'>
-          <h5 className='flex items-center gap-1 font-medium leading-none'>
-            <TrendingUp className='mr-1 h-4 w-4' />
-            Highest expense in
-            <strong style={{ color: categoriesColor[tooltipCategory.toLowerCase()] }}>
-              {tooltipCategory}
-            </strong>
-          </h5>
+      <CardFooter className='flex-col gap-2 text-sm'>
+        {!chartData.length && <p>No expenses yet</p>}
 
-          <h6 className='leading-none text-muted-foreground'>
-            <strong>{categoryHighestExpense}</strong> | <em>{categoryHighestAmount}€</em>
-          </h6>
-        </CardFooter>
-      )}
+        {chartData.length && tooltipCategory ? (
+          <>
+            <h5 className='flex items-center gap-1 font-medium leading-none'>
+              <TrendingUp className='mr-1 h-4 w-4' />
+              Highest expense in
+              <strong style={{ color: categoriesColor[tooltipCategory.toLowerCase()] }}>
+                {tooltipCategory}
+              </strong>
+            </h5>
+
+            <h6 className='leading-none text-muted-foreground'>
+              <strong>{categoryHighestExpense}</strong> | <em>{categoryHighestAmount}€</em>
+            </h6>
+          </>
+        ) : null}
+      </CardFooter>
     </Card>
   )
 }

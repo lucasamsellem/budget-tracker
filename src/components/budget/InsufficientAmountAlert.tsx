@@ -35,7 +35,7 @@ function InsufficientAmountAlert({ expensePrice, budgetAmountLeft }: Insufficien
     <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>
+          <AlertDialogTitle className='dark:text-white'>
             ⚠️ {isBudgetExceeded ? 'Budget exceeded' : 'Insufficient balance'}
           </AlertDialogTitle>
 

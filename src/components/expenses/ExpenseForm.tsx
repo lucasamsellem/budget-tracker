@@ -29,10 +29,13 @@ function ExpenseForm({
   initialExpenseState,
 }: ExpenseFormProps) {
   // Contexts
-  const { onTransactions } = useMoney()
+  const { balanceAmount, onTransactions } = useMoney()
 
   // Derived
   const hasEmptyFields = Object.values(expense).some(value => !value)
+  const isExpenseExceedingBudget =
+    (budgetAmountLeft && expense.price > budgetAmountLeft) ||
+    (balanceAmount && expense.price > balanceAmount)
 
   // Event handlers
   function handleSubmit(e: React.FormEvent) {
@@ -42,7 +45,7 @@ function ExpenseForm({
     if (hasEmptyFields) return alert('Please fill in all the required information.')
 
     // Then returns Shadcn's error dialog
-    if (budgetAmountLeft && expense.price > budgetAmountLeft) return
+    if (isExpenseExceedingBudget) return
 
     onExpensesList(prev => [...prev, expense])
     onTransactions(prev => [...prev, -expense.price])
