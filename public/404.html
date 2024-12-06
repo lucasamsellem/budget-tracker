@@ -2,20 +2,25 @@
 <html>
   <head>
     <script>
-      // Redirection automatique basée sur la route actuelle
+      // Get the current path
       const pathname = window.location.pathname
-      const route = pathname.split('/').pop() || 'home' // Default to 'home' if empty
+
+      // Extract the route after the last slash
+      const route = pathname.split('/').pop() || 'home' // Default to 'home' if no route is specified
+
+      // Determine the target URL for redirection
       const redirectUrl = `/budget-tracker/${route}`
 
-      // Effectue la redirection
-      window.location.href = redirectUrl
+      // Prevent infinite redirection loop
+      if (pathname !== redirectUrl) {
+        window.location.href = redirectUrl
+      }
     </script>
   </head>
   <body>
-    <p>If you are not redirected automatically, <a id="redirect-link" href="#">click here</a>.</p>
-    <script>
-      // Met à jour dynamiquement le lien d'URL
-      document.getElementById('redirect-link').href = `/budget-tracker/${route}`
-    </script>
+    <p>
+      If you are not redirected automatically,
+      <a id="redirect-link" href="/budget-tracker/home">click here</a>.
+    </p>
   </body>
 </html>
