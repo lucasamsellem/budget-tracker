@@ -22,7 +22,7 @@ function App() {
     <ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
       <div className='flex min-h-screen flex-col dark:bg-zinc-950'>
         <MoneyProvider>
-          <BrowserRouter basename='/budget-tracker'>
+          <BrowserRouter basename={import.meta.env.BASE_URL}>
             <Routes>
               {/* Redirect from the root URL to '/home' */}
               <Route path='/' element={<Navigate to='/home' replace />} />
