@@ -2,20 +2,21 @@ import CheckButton from '../buttons/CheckButton'
 import DeleteBtn from '../buttons/DeleteBtn'
 import { TableCell, TableRow } from '../ui/table'
 import ExpenseNameInput from './ExpenseNameInput'
-import { Expense, CategoriesColor, ExpensesListType, OnExpensesList } from '@/types/Expense'
+import { Expense } from '@/types/Expense'
 import { useState } from 'react'
 import { useMoney } from '@/context/MoneyContext'
 import { capitalizeFirstLetter } from '@/utils/capitalizeFirstLetter'
+import { useExpense } from '@/context/ExpenseContext'
+import { categoriesColor } from '@/utils/colors'
 
-type ExpensesListProps = {
-  expensesList: ExpensesListType
-  onExpensesList: OnExpensesList
-  categoriesColor: CategoriesColor
-}
+// type ExpensesListProps = {
+//   categoriesColor: CategoriesColor
+// }
 
-function ExpensesList({ expensesList, onExpensesList, categoriesColor }: ExpensesListProps) {
+function ExpensesList() {
   // Context
   const { onTransactions } = useMoney()
+  const { expensesList, onExpensesList } = useExpense()
 
   // State
   const [activeCell, setActiveCell] = useState<number | null>(null)
@@ -31,8 +32,8 @@ function ExpensesList({ expensesList, onExpensesList, categoriesColor }: Expense
     onExpensesList(prev => prev.filter((_, i) => i !== index))
   }
 
-  const handleActiveCell = (index: number) => {
-    setActiveCell(prev => (prev === index ? null : index))
+  const handleActiveCell = (i: number) => {
+    setActiveCell(prev => (prev === i ? null : i))
   }
 
   return expensesList.map((exp, i) => (
@@ -43,7 +44,7 @@ function ExpensesList({ expensesList, onExpensesList, categoriesColor }: Expense
 
       <TableCell
         onClick={() => handleActiveCell(i)}
-        className='font-bold cursor-pointer min-w-[10rem]'
+        className='font-bold cursor-pointer min-w-[12rem]'
       >
         {activeCell === i ? (
           <form className='flex items-center'>
@@ -52,11 +53,7 @@ function ExpensesList({ expensesList, onExpensesList, categoriesColor }: Expense
               onExpenseUpdate={updatedExp => handleExpenseUpdate(updatedExp, i)}
             />
 
-            <CheckButton
-              eventHandler={() => handleExpenseUpdate(exp, i)}
-              type='submit'
-              className='size-6 ml-2'
-            />
+            <CheckButton isDisabled={exp.name === ''} type='submit' className='size-6 ml-2' />
           </form>
         ) : (
           exp.name
@@ -68,7 +65,7 @@ function ExpensesList({ expensesList, onExpensesList, categoriesColor }: Expense
           className='py-1 px-2 rounded-md text-white font-bold'
           style={{ backgroundColor: categoriesColor[exp.category] }}
         >
-          {capitalizeFirstLetter(exp.category)}
+          {capitalizeFirstLetter(exp?.category)}
         </span>
       </TableCell>
 

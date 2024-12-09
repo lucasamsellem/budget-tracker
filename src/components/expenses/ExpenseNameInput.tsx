@@ -10,6 +10,7 @@ type ExpenseNameInputProps = {
 function ExpenseNameInput({ expense, onExpense, onExpenseUpdate }: ExpenseNameInputProps) {
   return (
     <Input
+      required
       value={expense.name}
       type='text'
       placeholder='Name'

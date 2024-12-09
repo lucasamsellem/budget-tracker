@@ -14,14 +14,10 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart'
-import { CategoriesColor, ExpensesListType } from '@/types/Expense'
 import { useEffect, useState } from 'react'
 import { capitalizeFirstLetter } from '@/utils/capitalizeFirstLetter'
-
-type PieChartProps = {
-  expensesList: ExpensesListType
-  categoriesColor: CategoriesColor
-}
+import { useExpense } from '@/context/ExpenseContext'
+import { categoriesColor } from '@/utils/colors'
 
 type ChartData = {
   category: string
@@ -55,7 +51,10 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function PieChartComponent({ expensesList, categoriesColor }: PieChartProps) {
+export function PieChartComponent() {
+  // Context
+  const { expensesList } = useExpense()
+
   // State
   const [chartData, setChartData] = useState<ChartData[]>([])
   const [tooltipCategory, setTooltipCategory] = useState('')

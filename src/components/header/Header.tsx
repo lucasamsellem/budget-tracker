@@ -7,7 +7,7 @@ function Header() {
       <PageNav />
 
       <article className='flex items-center gap-5'>
-        <h1 className='font-bold dark:text-white text-2xl'>Budget Tracker</h1>
+        <h1 className='font-bold dark:text-white sm:text-xl'>Budget Tracker</h1>
         <ModeToggle />
       </article>
     </header>

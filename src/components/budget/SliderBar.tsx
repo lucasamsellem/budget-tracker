@@ -3,23 +3,25 @@ import { useMoney } from '@/context/MoneyContext'
 import { CardFooter } from '../ui/card'
 import CheckButton from '../buttons/CheckButton'
 import { OnSliderValue, SliderDefaultValue, SliderValue } from '@/types/Money'
+import { useExpense } from '@/context/ExpenseContext'
 
 type SliderBarProps = {
-  sliderDefaultValue: SliderDefaultValue
   sliderValue: SliderValue
   onSliderValue: OnSliderValue
+  sliderDefaultValue: SliderDefaultValue
 }
 
 function SliderBar({ sliderDefaultValue, sliderValue, onSliderValue }: SliderBarProps) {
   const { balanceAmount, onBudgetLimit } = useMoney()
+  const { totalExpensesPrice } = useExpense()
 
   return (
     <>
       <Slider
         defaultValue={[sliderDefaultValue]}
-        min={sliderDefaultValue}
+        min={totalExpensesPrice} // User cannot define a budget lower than totalExpensesPrice which would otherwise result in a negative percentage
         max={balanceAmount}
-        step={sliderDefaultValue}
+        step={1}
         onValueChange={e => onSliderValue(e[0])}
       />
 

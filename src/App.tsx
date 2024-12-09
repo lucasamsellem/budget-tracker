@@ -5,8 +5,9 @@ import { ThemeProvider } from './components/ui/theme-provider'
 import PageNotFound from './pages/PageNotFound'
 import BudgetPage from './pages/BudgetPage'
 import { MoneyProvider } from './context/MoneyContext'
-import ProtectedRoute from './components/ProtectedRoute'
+import ProtectedRoute from './pages/ProtectedRoute'
 import Footer from './components/footer/Footer'
+import { ExpenseProvider } from './context/ExpenseContext'
 
 // Solde: voir s'il reste suffisament d'argent ✔️
 // Rooting pour solde et dépenses ✔️
@@ -15,6 +16,7 @@ import Footer from './components/footer/Footer'
 // Dès qu'une expense est ajoutée, déduire son prix de la balance ✔️
 // Pour première visite, obligation d'entrer la balance ✔️
 // Graphiques ✔️
+// Faire en sorte que le budget soit accordé au total des dépenses (valeur min) si l'utilisateur veut le modifier
 // Select currency
 
 function App() {
@@ -22,33 +24,35 @@ function App() {
     <ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
       <div className='flex min-h-screen flex-col dark:bg-zinc-950'>
         <MoneyProvider>
-          <BrowserRouter basename={import.meta.env.BASE_URL}>
-            <Routes>
-              {/* Redirect from the root URL to '/home' */}
-              <Route path='/' element={<Navigate to='/home' replace />} />
-              <Route path='/home' element={<HomePage />} />
+          <ExpenseProvider>
+            <BrowserRouter basename={import.meta.env.BASE_URL}>
+              <Routes>
+                {/* Redirect from the root URL to '/home' */}
+                <Route path='/' element={<Navigate to='/home' replace />} />
+                <Route path='/home' element={<HomePage />} />
 
-              <Route
-                path='/budget'
-                element={
-                  <ProtectedRoute>
-                    <BudgetPage />
-                  </ProtectedRoute>
-                }
-              />
+                <Route
+                  path='/budget'
+                  element={
+                    <ProtectedRoute>
+                      <BudgetPage />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route
-                path='/table'
-                element={
-                  <ProtectedRoute>
-                    <ExpensesTablePage />
-                  </ProtectedRoute>
-                }
-              />
+                <Route
+                  path='/table'
+                  element={
+                    <ProtectedRoute>
+                      <ExpensesTablePage />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route path='*' element={<PageNotFound />} />
-            </Routes>
-          </BrowserRouter>
+                <Route path='*' element={<PageNotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </ExpenseProvider>
         </MoneyProvider>
 
         <Footer />

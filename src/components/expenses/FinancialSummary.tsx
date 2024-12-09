@@ -1,15 +1,16 @@
 import { formatAmount } from '@/utils/formatAmount'
 import { TableCell, TableRow } from '../ui/table'
 import BalanceAmount from '../balance/BalanceAmount'
-import { TotalExpensesPrice } from '@/types/Expense'
 import { BudgetAmountLeft } from '@/types/Money'
+import { useExpense } from '@/context/ExpenseContext'
 
 type FinancialSummaryProps = {
-  totalExpensesPrice: TotalExpensesPrice
   budgetAmountLeft: BudgetAmountLeft
 }
 
-function FinancialSummary({ budgetAmountLeft, totalExpensesPrice }: FinancialSummaryProps) {
+function FinancialSummary({ budgetAmountLeft }: FinancialSummaryProps) {
+  const { totalExpensesPrice } = useExpense()
+
   return (
     <TableRow>
       <TableCell colSpan={budgetAmountLeft ? 2 : 3}>

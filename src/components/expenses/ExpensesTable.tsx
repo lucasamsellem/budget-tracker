@@ -2,29 +2,13 @@ import { Table, TableBody, TableFooter, TableHeader } from '@/components/ui/tabl
 import ExpensesCategories from './ExpensesCategories'
 import ExpensesList from './ExpensesList'
 import FinancialSummary from './FinancialSummary'
-import {
-  ExpensesListType,
-  OnExpensesList,
-  TotalExpensesPrice,
-  CategoriesColor,
-} from '@/types/Expense'
 import { BudgetAmountLeft } from '@/types/Money'
 
 type ExpensesTableProps = {
-  expensesList: ExpensesListType
-  onExpensesList: OnExpensesList
-  categoriesColor: CategoriesColor
-  totalExpensesPrice: TotalExpensesPrice
   budgetAmountLeft: BudgetAmountLeft
 }
 
-function ExpensesTable({
-  expensesList,
-  onExpensesList,
-  categoriesColor,
-  budgetAmountLeft,
-  totalExpensesPrice,
-}: ExpensesTableProps) {
+function ExpensesTable({ budgetAmountLeft }: ExpensesTableProps) {
   return (
     <Table>
       <TableHeader>
@@ -32,18 +16,11 @@ function ExpensesTable({
       </TableHeader>
 
       <TableBody>
-        <ExpensesList
-          expensesList={expensesList}
-          onExpensesList={onExpensesList}
-          categoriesColor={categoriesColor}
-        />
+        <ExpensesList />
       </TableBody>
 
       <TableFooter>
-        <FinancialSummary
-          budgetAmountLeft={budgetAmountLeft}
-          totalExpensesPrice={totalExpensesPrice}
-        />
+        <FinancialSummary budgetAmountLeft={budgetAmountLeft} />
       </TableFooter>
     </Table>
   )

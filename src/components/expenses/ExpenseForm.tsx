@@ -10,42 +10,33 @@ import {
 } from '@/components/ui/select'
 import ExpenseNameInput from './ExpenseNameInput'
 import { useMoney } from '@/context/MoneyContext'
-import { Expense, OnExpense, OnExpensesList } from '@/types/Expense'
+import { Expense, OnExpense } from '@/types/Expense'
 import { BudgetAmountLeft } from '@/types/Money'
+import { useExpense } from '@/context/ExpenseContext'
+import { initialExpenseState } from '@/utils/initialExpenseState'
 
 type ExpenseFormProps = {
-  initialExpenseState: Expense
   expense: Expense
   onExpense: OnExpense
-  onExpensesList: OnExpensesList
   budgetAmountLeft: BudgetAmountLeft
 }
 
-function ExpenseForm({
-  expense,
-  onExpense,
-  onExpensesList,
-  budgetAmountLeft,
-  initialExpenseState,
-}: ExpenseFormProps) {
+function ExpenseForm({ expense, onExpense, budgetAmountLeft }: ExpenseFormProps) {
   // Contexts
   const { balanceAmount, onTransactions } = useMoney()
+  const { onExpensesList } = useExpense()
 
   // Derived
   const hasEmptyFields = Object.values(expense).some(value => !value)
-  const isExpenseExceedingBudget =
-    (budgetAmountLeft && expense.price > budgetAmountLeft) ||
-    (balanceAmount && expense.price > balanceAmount)
+  const isOverBudget = budgetAmountLeft && expense.price > budgetAmountLeft
+  const isOverBalance = balanceAmount && expense.price > balanceAmount
 
   // Event handlers
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    e.stopPropagation()
-
-    if (hasEmptyFields) return alert('Please fill in all the required information.')
 
     // Then returns Shadcn's error dialog
-    if (isExpenseExceedingBudget) return
+    if (hasEmptyFields || isOverBudget || isOverBalance) return
 
     onExpensesList(prev => [...prev, expense])
     onTransactions(prev => [...prev, -expense.price])
@@ -60,10 +51,11 @@ function ExpenseForm({
       </CardHeader>
 
       <CardContent>
-        <form action='card-content' className='grid gap-5' onSubmit={handleSubmit}>
+        <form className='grid gap-5' onSubmit={handleSubmit}>
           <ExpenseNameInput expense={expense} onExpense={onExpense} />
 
           <Select
+            required
             value={expense.category}
             onValueChange={value =>
               onExpense(prev => ({
@@ -85,6 +77,7 @@ function ExpenseForm({
           </Select>
 
           <Input
+            required
             value={expense.price}
             type='number'
             placeholder='Price'
