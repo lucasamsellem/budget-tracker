@@ -11,7 +11,7 @@
   "compilerOptions": {
     "strict": true, // Is this enabled?
     "noImplicitAny": true, // Is this enabled?
-    "skipLibCheck": false, // Ensure this matches your pipeline config
+    "skipLibCheck": true, // Ensure this matches your pipeline config
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
