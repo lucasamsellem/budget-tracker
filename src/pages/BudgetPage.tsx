@@ -20,7 +20,7 @@ function BudgetPage() {
     <>
       <Header />
 
-      <Main className='grid sm:grid-cols-2'>
+      <Main className='grid sm:grid-cols-2 gap-y-[5rem]'>
         <section>
           <Card className='sm:w-[23rem] space-y-5 h-min'>
             <BudgetCardHeader

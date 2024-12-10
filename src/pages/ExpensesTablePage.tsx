@@ -27,7 +27,7 @@ function ExpensesTablePage() {
 
       <InsufficientAmountAlert expensePrice={expense.price} budgetAmountLeft={budgetAmountLeft} />
 
-      <Main className='flex flex-col sm:grid sm:grid-cols-[auto_auto_auto] justify-between gap-10 justify-items-start dark:text-white'>
+      <Main className='flex flex-col sm:grid sm:grid-cols-[auto_auto_auto] justify-between gap-[5rem] justify-items-start dark:text-white'>
         <section>
           <ExpenseForm
             expense={expense}
