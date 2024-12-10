@@ -16,7 +16,9 @@ import { ExpenseProvider } from './context/ExpenseContext'
 // Dès qu'une expense est ajoutée, déduire son prix de la balance ✔️
 // Pour première visite, obligation d'entrer la balance ✔️
 // Graphiques ✔️
-// Faire en sorte que le budget soit accordé au total des dépenses (valeur min) si l'utilisateur veut le modifier
+// Faire en sorte que le budget soit accordé au total des dépenses (valeur min) si l'utilisateur veut le modifier ✔️
+// Ajouter Shadcn empty inputs ✔️
+// Livret A ?
 // Select currency
 
 function App() {

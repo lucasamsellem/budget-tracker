@@ -126,8 +126,6 @@ const ChartTooltipContent = React.forwardRef<
   ) => {
     const { config } = useChart()
 
-    // const tooltipCategory = payload?.[0]?.[nameKey as keyof (typeof payload)[0]] as NameType | null
-
     const tooltipLabel = React.useMemo(() => {
       if (hideLabel || !payload?.length) {
         return null

@@ -1,22 +1,23 @@
 import { useMoney } from '@/context/MoneyContext'
 import { CardContent } from '../ui/card'
 import SliderBar from './SliderBar'
-import { useState } from 'react'
-import { IsChecked } from '@/types/Money'
-import { useExpense } from '@/context/ExpenseContext'
+import { IsChecked, OnSliderValue, SliderDefaultValue, SliderValue } from '@/types/Money'
 
 type BudgetCardContentProps = {
   isChecked: IsChecked
+  sliderDefaultValue: SliderDefaultValue
+  sliderValue: SliderValue
+  onSliderValue: OnSliderValue
 }
 
-function BudgetCardContent({ isChecked }: BudgetCardContentProps) {
+function BudgetCardContent({
+  sliderDefaultValue,
+  sliderValue,
+  onSliderValue,
+  isChecked,
+}: BudgetCardContentProps) {
   // Context
   const { budgetLimit } = useMoney()
-  const { totalExpensesPrice } = useExpense()
-
-  // State
-  const sliderDefaultValue = totalExpensesPrice ? totalExpensesPrice : 0
-  const [sliderValue, setSliderValue] = useState(sliderDefaultValue)
 
   return (
     isChecked && (
@@ -29,7 +30,7 @@ function BudgetCardContent({ isChecked }: BudgetCardContentProps) {
           <SliderBar
             sliderDefaultValue={sliderDefaultValue}
             sliderValue={sliderValue}
-            onSliderValue={setSliderValue}
+            onSliderValue={onSliderValue}
           />
         )}
       </CardContent>

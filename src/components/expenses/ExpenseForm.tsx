@@ -14,6 +14,8 @@ import { Expense, OnExpense } from '@/types/Expense'
 import { BudgetAmountLeft } from '@/types/Money'
 import { useExpense } from '@/context/ExpenseContext'
 import { initialExpenseState } from '@/utils/initialExpenseState'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import { useState } from 'react'
 
 type ExpenseFormProps = {
   expense: Expense
@@ -26,6 +28,9 @@ function ExpenseForm({ expense, onExpense, budgetAmountLeft }: ExpenseFormProps)
   const { balanceAmount, onTransactions } = useMoney()
   const { onExpensesList } = useExpense()
 
+  // State
+  const [isAlertPopover, setIsAlertPopover] = useState<boolean>(false)
+
   // Derived
   const hasEmptyFields = Object.values(expense).some(value => !value)
   const isOverBudget = budgetAmountLeft && expense.price > budgetAmountLeft
@@ -35,12 +40,15 @@ function ExpenseForm({ expense, onExpense, budgetAmountLeft }: ExpenseFormProps)
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
 
+    if (hasEmptyFields) return setIsAlertPopover(true)
+
     // Then returns Shadcn's error dialog
-    if (hasEmptyFields || isOverBudget || isOverBalance) return
+    if (isOverBudget || isOverBalance) return
 
     onExpensesList(prev => [...prev, expense])
     onTransactions(prev => [...prev, -expense.price])
     onExpense(initialExpenseState)
+    setIsAlertPopover(false) // Reset popover state
   }
 
   return (
@@ -55,7 +63,6 @@ function ExpenseForm({ expense, onExpense, budgetAmountLeft }: ExpenseFormProps)
           <ExpenseNameInput expense={expense} onExpense={onExpense} />
 
           <Select
-            required
             value={expense.category}
             onValueChange={value =>
               onExpense(prev => ({
@@ -77,20 +84,29 @@ function ExpenseForm({ expense, onExpense, budgetAmountLeft }: ExpenseFormProps)
           </Select>
 
           <Input
-            required
             value={expense.price}
             type='number'
             placeholder='Price'
             onChange={e => {
-              const inputValue = e.target.value.replace(',', '.')
               onExpense(prev => ({
                 ...prev,
-                price: Number(inputValue),
+                price: Number(e.target.value.replace(',', '.')),
               }))
             }}
           />
 
-          <Button type='submit'>Submit</Button>
+          <Popover>
+            <PopoverTrigger>
+              <Button className='w-full' type='submit'>
+                Submit
+              </Button>
+            </PopoverTrigger>
+            {isAlertPopover && (
+              <PopoverContent className='text-sm py-2 text-center'>
+                ⚠️ Please fill in all the inputs
+              </PopoverContent>
+            )}
+          </Popover>
         </form>
       </CardContent>
     </Card>

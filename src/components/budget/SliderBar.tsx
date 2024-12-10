@@ -15,6 +15,9 @@ function SliderBar({ sliderDefaultValue, sliderValue, onSliderValue }: SliderBar
   const { balanceAmount, onBudgetLimit } = useMoney()
   const { totalExpensesPrice } = useExpense()
 
+  // console.log('sliderDefaultValue', sliderDefaultValue)
+  // console.log('sliderValue', sliderValue)
+
   return (
     <>
       <Slider

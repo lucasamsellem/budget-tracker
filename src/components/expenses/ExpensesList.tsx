@@ -9,10 +9,6 @@ import { capitalizeFirstLetter } from '@/utils/capitalizeFirstLetter'
 import { useExpense } from '@/context/ExpenseContext'
 import { categoriesColor } from '@/utils/colors'
 
-// type ExpensesListProps = {
-//   categoriesColor: CategoriesColor
-// }
-
 function ExpensesList() {
   // Context
   const { onTransactions } = useMoney()
@@ -38,22 +34,24 @@ function ExpensesList() {
 
   return expensesList.map((exp, i) => (
     <TableRow key={i}>
-      <TableCell className='w-[4rem]'>
+      <TableCell className='w-[3rem]'>
         <DeleteBtn onDeleteExpense={() => handleDeleteExpense(i)} />
       </TableCell>
 
       <TableCell
         onClick={() => handleActiveCell(i)}
-        className='font-bold cursor-pointer min-w-[12rem]'
+        className='font-bold cursor-pointer min-w-[8rem]'
       >
         {activeCell === i ? (
           <form className='flex items-center'>
             <ExpenseNameInput
+              autoFocus={true}
+              className='max-w-[8rem] text-sm'
               expense={exp}
               onExpenseUpdate={updatedExp => handleExpenseUpdate(updatedExp, i)}
             />
 
-            <CheckButton isDisabled={exp.name === ''} type='submit' className='size-6 ml-2' />
+            <CheckButton isDisabled={exp.name === ''} type='submit' className='size-6 ml-1' />
           </form>
         ) : (
           exp.name
@@ -69,7 +67,7 @@ function ExpensesList() {
         </span>
       </TableCell>
 
-      <TableCell colSpan={3} className='text-right w-full'>
+      <TableCell colSpan={3} className='text-right'>
         {exp.price}€
       </TableCell>
     </TableRow>

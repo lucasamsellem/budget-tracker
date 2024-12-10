@@ -51,6 +51,8 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
+const date = new Date().toLocaleDateString()
+
 export function PieChartComponent() {
   // Context
   const { expensesList } = useExpense()
@@ -58,7 +60,6 @@ export function PieChartComponent() {
   // State
   const [chartData, setChartData] = useState<ChartData[]>([])
   const [tooltipCategory, setTooltipCategory] = useState('')
-  const date = new Date().toLocaleDateString()
 
   // Derived
   const topCategory = chartData.reduce(

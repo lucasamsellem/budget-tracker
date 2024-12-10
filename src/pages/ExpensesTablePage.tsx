@@ -8,6 +8,7 @@ import ExpensesTable from '@/components/expenses/ExpensesTable'
 import Header from '@/components/header/Header'
 import { useExpense } from '@/context/ExpenseContext'
 import { initialExpenseState } from '@/utils/initialExpenseState'
+import Main from '@/components/Main'
 
 function ExpensesTablePage() {
   // Context
@@ -26,7 +27,7 @@ function ExpensesTablePage() {
 
       <InsufficientAmountAlert expensePrice={expense.price} budgetAmountLeft={budgetAmountLeft} />
 
-      <main className='grid sm:grid-cols-[auto_auto_auto] justify-between gap-10 justify-items-start flex-1 px-8 dark:text-white'>
+      <Main className='flex flex-col sm:grid sm:grid-cols-[auto_auto_auto] justify-between gap-10 justify-items-start dark:text-white'>
         <section>
           <ExpenseForm
             expense={expense}
@@ -42,7 +43,7 @@ function ExpensesTablePage() {
         <section>
           <PieChartComponent />
         </section>
-      </main>
+      </Main>
     </>
   )
 }

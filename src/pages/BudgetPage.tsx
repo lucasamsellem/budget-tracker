@@ -4,48 +4,43 @@ import Header from '@/components/header/Header'
 import BudgetCardHeader from '@/components/budget/BudgetCardHeader'
 import BudgetCardContent from '@/components/budget/BudgetCardContent'
 import { useExpense } from '@/context/ExpenseContext'
-import { Progress } from '@/components/ui/progress'
-import { useMoney } from '@/context/MoneyContext'
-import { progressBarColors } from '@/utils/colors'
+import { useState } from 'react'
+import BudgetProgressBar from '@/components/budget/BudgetProgressBar'
+import Main from '@/components/Main'
 
 function BudgetPage() {
-  // Context
-  const { budgetLimit } = useMoney()
   const { totalExpensesPrice } = useExpense()
 
   // State
   const [isChecked, setIsChecked] = useLocalStorage<boolean>('isChecked', false)
-
-  // Derived
-  const safeBudgetLimit = budgetLimit ?? 0
-  const budgetLeftPercentage = safeBudgetLimit
-    ? Math.trunc((totalExpensesPrice / safeBudgetLimit) * 100)
-    : 0
-
-  const barColor = Object.entries(progressBarColors).find(
-    ([, range]) => budgetLeftPercentage > range[0] && budgetLeftPercentage <= range[1]
-  )?.[0]
+  const sliderDefaultValue = totalExpensesPrice ?? 0
+  const [sliderValue, setSliderValue] = useState(sliderDefaultValue)
 
   return (
     <>
       <Header />
 
-      <main className='flex-1 grid grid-cols-2 px-8'>
+      <Main className='grid sm:grid-cols-2'>
         <section>
-          <Card className='w-[23rem] space-y-5 h-min'>
-            <BudgetCardHeader isChecked={isChecked} onIsChecked={setIsChecked} />
-            <BudgetCardContent isChecked={isChecked} />
+          <Card className='sm:w-[23rem] space-y-5 h-min'>
+            <BudgetCardHeader
+              isChecked={isChecked}
+              onIsChecked={setIsChecked}
+              onSliderValue={setSliderValue}
+            />
+            <BudgetCardContent
+              sliderDefaultValue={sliderDefaultValue}
+              sliderValue={sliderValue}
+              onSliderValue={setSliderValue}
+              isChecked={isChecked}
+            />
           </Card>
         </section>
 
-        <section className='max-w-[20rem] space-y-2'>
-          <h3 className='dark:text-white text-xl'>Progress</h3>
-          <div className='flex items-center gap-x-4'>
-            <Progress barColor={barColor} value={budgetLeftPercentage} />
-            <span className='dark:text-white'>{budgetLeftPercentage}%</span>
-          </div>
+        <section className='sm:max-w-[20rem] space-y-1'>
+          <BudgetProgressBar />
         </section>
-      </main>
+      </Main>
     </>
   )
 }

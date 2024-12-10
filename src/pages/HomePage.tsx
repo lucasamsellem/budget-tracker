@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useMoney } from '@/context/MoneyContext'
 import { useRef } from 'react'
 import Header from '@/components/header/Header'
+import Main from '@/components/Main'
 
 function HomePage() {
   const { balanceAmount, handleTransactions } = useMoney()
@@ -14,8 +15,8 @@ function HomePage() {
     <>
       <Header />
 
-      <main className='flex-1'>
-        <Card className='w-[23rem] mx-auto space-y-5 dark:text-white'>
+      <Main>
+        <Card className='sm:w-[23rem] mx-auto space-y-5 dark:text-white '>
           <CardHeader>
             <CardTitle>
               <BalanceAmount />
@@ -48,7 +49,7 @@ function HomePage() {
             </Tabs>
           </CardContent>
         </Card>
-      </main>
+      </Main>
     </>
   )
 }

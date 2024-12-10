@@ -5,12 +5,21 @@ type ExpenseNameInputProps = {
   expense: Expense
   onExpense?: OnExpense
   onExpenseUpdate?: (updatedExpense: Expense) => void
+  className?: string
+  autoFocus?: boolean
 }
 
-function ExpenseNameInput({ expense, onExpense, onExpenseUpdate }: ExpenseNameInputProps) {
+function ExpenseNameInput({
+  expense,
+  onExpense,
+  onExpenseUpdate,
+  className,
+  autoFocus,
+}: ExpenseNameInputProps) {
   return (
     <Input
-      required
+      autoFocus={autoFocus}
+      className={className || ''}
       value={expense.name}
       type='text'
       placeholder='Name'
