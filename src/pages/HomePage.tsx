@@ -23,7 +23,7 @@ function HomePage() {
             </CardTitle>
             <CardDescription className={!balanceAmount ? 'text-red dark:text-red font-medium' : ''}>
               {!balanceAmount
-                ? 'You need to add funds first to unlock access to the additional features'
+                ? 'You need to add funds first to unlock access to the additional features available in the navigation bar'
                 : 'Add or withdraw money from your account'}
             </CardDescription>
           </CardHeader>
