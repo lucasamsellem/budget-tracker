@@ -2,29 +2,28 @@ import { useMoney } from '@/context/MoneyContext'
 import { Progress } from '../ui/progress'
 import { useExpense } from '@/context/ExpenseContext'
 import { progressBarColors } from '@/utils/colors'
+import { CardFooter } from '../ui/card'
 
 function BudgetProgressBar() {
   const { budgetLimit } = useMoney()
   const { totalExpensesPrice } = useExpense()
 
-  // Derived
   const safeBudgetLimit = budgetLimit ?? 0
-  const budgetLeftPercentage = safeBudgetLimit
+  const budgetProgressPercentage = safeBudgetLimit
     ? Math.trunc((totalExpensesPrice / safeBudgetLimit) * 100)
     : 0
 
   const barColor = Object.entries(progressBarColors).find(
-    ([, range]) => budgetLeftPercentage > range[0] && budgetLeftPercentage <= range[1]
+    ([, range]) => budgetProgressPercentage > range[0] && budgetProgressPercentage <= range[1]
   )?.[0]
 
   return (
-    <>
-      <h3 className='dark:text-white text-lg'>Progress</h3>
-      <div className='flex items-center gap-x-4'>
-        <Progress barColor={barColor} value={budgetLeftPercentage} />
-        <span className='dark:text-white'>{budgetLeftPercentage}%</span>
-      </div>
-    </>
+    <CardFooter className='p-6'>
+      <label className='dark:text-white absolute text-sm font-medium z-10 left-1/2'>
+        {budgetProgressPercentage}%
+      </label>
+      <Progress barColor={barColor} value={budgetProgressPercentage} />
+    </CardFooter>
   )
 }
 

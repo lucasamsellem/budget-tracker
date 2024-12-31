@@ -1,43 +1,32 @@
-import { useState } from 'react'
 import { Input } from '../ui/input'
 import CheckButton from '../buttons/CheckButton'
-import { useMoney } from '@/context/MoneyContext'
-import { AddTransaction } from '@/types/Money'
 
 type AddTransactionInputProps = {
-  addTransaction: AddTransaction
+  inputValue: string
+  onInputValue: React.Dispatch<React.SetStateAction<string>>
+  eventHandler?: (e: React.FormEvent) => void
   withdrawRef?: React.MutableRefObject<null>
 }
 
-function AddTransactionInput({ withdrawRef, addTransaction }: AddTransactionInputProps) {
-  const { balanceAmount } = useMoney()
-  const [inputValue, setInputValue] = useState('')
-
-  const handleAdd = (e: React.FormEvent) => {
-    e.preventDefault()
-    const amount = Number(inputValue)
-
-    if (withdrawRef && amount > balanceAmount) {
-      return alert('Cannot withdraw more than your available balance')
-    }
-
-    if (!isNaN(amount) && amount > 0) {
-      addTransaction(amount)
-      setInputValue('')
-    }
-  }
-
+function AddTransactionInput({
+  inputValue,
+  onInputValue,
+  eventHandler,
+  withdrawRef,
+}: AddTransactionInputProps) {
   return (
     <form className='flex gap-2'>
       <Input
+        name='transaction-amount'
+        value={inputValue}
         type='number'
         min={0}
         placeholder='Enter amount'
-        value={inputValue}
-        onChange={e => setInputValue(e.target.value)}
+        ref={withdrawRef}
+        onChange={e => onInputValue(e.target.value)}
       />
 
-      <CheckButton type='submit' className='size-8' eventHandler={handleAdd} />
+      <CheckButton type='submit' className='size-8' eventHandler={eventHandler} />
     </form>
   )
 }

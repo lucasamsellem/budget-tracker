@@ -9,23 +9,25 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
 import { useMoney } from '@/context/MoneyContext'
-import { BudgetAmountLeft } from '@/types/Money'
+import { useExpense } from '@/context/ExpenseContext'
+import { OnExpense } from '@/types/Expense'
 
 type InsufficientAmountAlertProps = {
   expensePrice: number
-  budgetAmountLeft: BudgetAmountLeft
+  onExpense: OnExpense
 }
 
-function InsufficientAmountAlert({ expensePrice, budgetAmountLeft }: InsufficientAmountAlertProps) {
+function InsufficientAmountAlert({ expensePrice, onExpense }: InsufficientAmountAlertProps) {
   // Context
-  const { balanceAmount } = useMoney()
+  const { balanceAccountAmount } = useMoney()
+  const { budgetAmountLeft } = useExpense()
 
   // State
   const [isDialogOpen, setIsDialogOpen] = useState(false)
 
   // Derived
   const isBudgetExceeded = budgetAmountLeft && expensePrice > budgetAmountLeft
-  const isBalanceInsufficient = balanceAmount && expensePrice > balanceAmount
+  const isBalanceInsufficient = balanceAccountAmount && expensePrice > balanceAccountAmount
 
   useEffect(() => {
     if (isBudgetExceeded || isBalanceInsufficient) setIsDialogOpen(true)
@@ -48,8 +50,9 @@ function InsufficientAmountAlert({ expensePrice, budgetAmountLeft }: Insufficien
               </>
             ) : (
               <>
-                You must add <strong className='text-green'>{expensePrice - balanceAmount}€</strong>{' '}
-                to your account
+                You must add{' '}
+                <strong className='text-green'>{expensePrice - balanceAccountAmount}€</strong> to
+                your account
               </>
             )}
           </AlertDialogDescription>
@@ -57,7 +60,16 @@ function InsufficientAmountAlert({ expensePrice, budgetAmountLeft }: Insufficien
 
         <AlertDialogFooter>
           {/* <AlertDialogCancel onClick={() => setIsDialogOpen(false)}>Cancel</AlertDialogCancel> */}
-          <AlertDialogAction>Continue</AlertDialogAction>
+          <AlertDialogAction
+            onClick={() =>
+              onExpense(prev => ({
+                ...prev,
+                price: 0,
+              }))
+            }
+          >
+            Continue
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

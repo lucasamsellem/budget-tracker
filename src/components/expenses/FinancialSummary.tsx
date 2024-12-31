@@ -1,25 +1,22 @@
 import { formatAmount } from '@/utils/formatAmount'
 import { TableCell, TableRow } from '../ui/table'
-import BalanceAmount from '../balance/BalanceAmount'
-import { BudgetAmountLeft } from '@/types/Money'
 import { useExpense } from '@/context/ExpenseContext'
+import colorizeAccountAmount from '@/utils/colorizeAccountAmount'
+import { useMoney } from '@/context/MoneyContext'
 
-type FinancialSummaryProps = {
-  budgetAmountLeft: BudgetAmountLeft
-}
-
-function FinancialSummary({ budgetAmountLeft }: FinancialSummaryProps) {
-  const { totalExpensesPrice } = useExpense()
+function FinancialSummary() {
+  const { balanceAccountAmount } = useMoney()
+  const { totalExpensesPrice, budgetAmountLeft } = useExpense()
 
   return (
-    <TableRow>
+    <TableRow className='text-nowrap'>
       <TableCell colSpan={budgetAmountLeft ? 2 : 3}>
-        <BalanceAmount />
+        Balance: {colorizeAccountAmount(balanceAccountAmount)}
       </TableCell>
 
       {budgetAmountLeft ? (
         <TableCell>
-          Left: <strong className='text-orange'>{budgetAmountLeft}€</strong>
+          Budget left: <strong className='text-orange'>{budgetAmountLeft}€</strong>
         </TableCell>
       ) : null}
 

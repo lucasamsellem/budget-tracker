@@ -12,18 +12,15 @@ type SliderBarProps = {
 }
 
 function SliderBar({ sliderDefaultValue, sliderValue, onSliderValue }: SliderBarProps) {
-  const { balanceAmount, onBudgetLimit } = useMoney()
+  const { balanceAccountAmount, onBudgetLimit } = useMoney()
   const { totalExpensesPrice } = useExpense()
-
-  // console.log('sliderDefaultValue', sliderDefaultValue)
-  // console.log('sliderValue', sliderValue)
 
   return (
     <>
       <Slider
         defaultValue={[sliderDefaultValue]}
         min={totalExpensesPrice} // User cannot define a budget lower than totalExpensesPrice which would otherwise result in a negative percentage
-        max={balanceAmount}
+        max={balanceAccountAmount}
         step={1}
         onValueChange={e => onSliderValue(e[0])}
       />

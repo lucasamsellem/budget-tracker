@@ -1,45 +1,81 @@
-import { Card } from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
 import Header from '@/components/header/Header'
-import BudgetCardHeader from '@/components/budget/BudgetCardHeader'
-import BudgetCardContent from '@/components/budget/BudgetCardContent'
 import { useExpense } from '@/context/ExpenseContext'
 import { useState } from 'react'
 import BudgetProgressBar from '@/components/budget/BudgetProgressBar'
 import Main from '@/components/Main'
+import { useMoney } from '@/context/MoneyContext'
+import { Switch } from '@/components/ui/switch'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
+import InfoBtn from '@/components/buttons/InfoBtn'
+import BudgetSliderBar from '@/components/budget/BudgetSliderBar'
 
 function BudgetPage() {
+  const { budgetLimit, onBudgetLimit } = useMoney()
   const { totalExpensesPrice } = useExpense()
 
   // State
   const [isChecked, setIsChecked] = useLocalStorage<boolean>('isChecked', false)
-  const sliderDefaultValue = totalExpensesPrice ?? 0
-  const [sliderValue, setSliderValue] = useState(sliderDefaultValue)
+  const [sliderValue, setSliderValue] = useState(totalExpensesPrice ?? 0)
+
+  function handleChecked() {
+    setIsChecked(prev => {
+      if (!prev) {
+        setSliderValue(totalExpensesPrice) // Reset to totalExpensesPrice when toggled again
+      } else {
+        onBudgetLimit(null) // Clear budget limit when disabling
+      }
+
+      return !prev
+    })
+  }
 
   return (
     <>
       <Header />
 
-      <Main className='grid sm:grid-cols-2 gap-y-[5rem]'>
-        <section>
-          <Card className='sm:w-[23rem] space-y-5 h-min'>
-            <BudgetCardHeader
-              isChecked={isChecked}
-              onIsChecked={setIsChecked}
-              onSliderValue={setSliderValue}
-            />
-            <BudgetCardContent
-              sliderDefaultValue={sliderDefaultValue}
-              sliderValue={sliderValue}
-              onSliderValue={setSliderValue}
-              isChecked={isChecked}
-            />
-          </Card>
-        </section>
+      <Main>
+        <Card className='sm:w-[23rem] mx-auto'>
+          <CardHeader>
+            <CardTitle className='flex justify-between items-center'>
+              <div className='flex gap-x-4'>
+                <h2>Define a budget</h2>
+                <Switch checked={isChecked} onCheckedChange={handleChecked} />
+              </div>
 
-        <section className='sm:max-w-[20rem] space-y-1'>
-          <BudgetProgressBar />
-        </section>
+              {budgetLimit && (
+                <Popover>
+                  <PopoverTrigger className='flex'>
+                    <InfoBtn />
+                  </PopoverTrigger>
+                  <PopoverContent className='text-sm text-center p-3'>
+                    You can reset your budget limit by switching the button again
+                  </PopoverContent>
+                </Popover>
+              )}
+            </CardTitle>
+            {isChecked && <CardDescription>Choose a maximum amount for this month</CardDescription>}
+          </CardHeader>
+
+          {isChecked && (
+            <CardContent className='flex flex-col gap-y-4 items-center p-6'>
+              {budgetLimit ? (
+                <h4>
+                  Limit: <strong className='text-orange text-lg'>{budgetLimit}€</strong>
+                </h4>
+              ) : (
+                <BudgetSliderBar
+                  sliderDefaultValue={totalExpensesPrice ?? 0}
+                  sliderValue={sliderValue}
+                  onSliderValue={setSliderValue}
+                />
+              )}
+            </CardContent>
+          )}
+
+          {budgetLimit && <BudgetProgressBar />}
+        </Card>
       </Main>
     </>
   )

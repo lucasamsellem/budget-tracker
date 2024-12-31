@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import ExpensesTablePage from './pages/ExpensesTablePage'
+import ExpensesPage from './pages/ExpensesPage'
 import HomePage from './pages/HomePage'
 import { ThemeProvider } from './components/ui/theme-provider'
 import PageNotFound from './pages/PageNotFound'
@@ -9,17 +9,15 @@ import ProtectedRoute from './pages/ProtectedRoute'
 import Footer from './components/footer/Footer'
 import { ExpenseProvider } from './context/ExpenseContext'
 
-// Solde: voir s'il reste suffisament d'argent ✔️
-// Rooting pour solde et dépenses ✔️
-// Trier en fonction du type de dépense ✔️
-// Modifier info dans le tableau ✔️
-// Dès qu'une expense est ajoutée, déduire son prix de la balance ✔️
-// Pour première visite, obligation d'entrer la balance ✔️
-// Graphiques ✔️
-// Ajouter Shadcn empty inputs ✔️
 // Faire en sorte que le budget soit accordé au total des dépenses (valeur min) si l'utilisateur veut le modifier  ✔️ && baser default value en fonction de totalExpensesPrice
+// CUSTOM HOOK pour blanace et savings ✔️
+// Livret A ? ✔️ Must run when on other page
+
+// établir plage temporelle pour définir budget
+// Code refactoring add/withdraw TabsList
+// Dates d'ajout des dépenses
+// Impossible de retirer l'argent du compte si inféireur au budget limit
 // Inputs number
-// Livret A ?
 // Select currency
 
 function App() {
@@ -44,10 +42,10 @@ function App() {
                 />
 
                 <Route
-                  path='/table'
+                  path='/expenses'
                   element={
                     <ProtectedRoute>
-                      <ExpensesTablePage />
+                      <ExpensesPage />
                     </ProtectedRoute>
                   }
                 />

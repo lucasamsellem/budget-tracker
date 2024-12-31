@@ -1,6 +1,10 @@
 // Transactions
 export type Transactions = number[]
 export type AddTransaction = (amount: number) => void
+export type Accounts = {
+  balance: number[]
+  savings: number[]
+}
 
 // Budget
 export type BudgetAmountLeft = number

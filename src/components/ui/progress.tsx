@@ -2,9 +2,8 @@ import * as React from 'react'
 import * as ProgressPrimitive from '@radix-ui/react-progress'
 import { cn } from '@/lib/utils'
 
-// Extend the ProgressPrimitive types to include `barColor`
 interface ProgressProps extends React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root> {
-  barColor?: string // Add barColor as an optional prop
+  barColor?: string
 }
 
 const Progress = React.forwardRef<React.ElementRef<typeof ProgressPrimitive.Root>, ProgressProps>(
@@ -12,7 +11,7 @@ const Progress = React.forwardRef<React.ElementRef<typeof ProgressPrimitive.Root
     <ProgressPrimitive.Root
       ref={ref}
       className={cn(
-        'relative h-2 w-full overflow-hidden rounded-full bg-zinc-900/20 dark:bg-zinc-50/20',
+        'relative h-5 w-full overflow-hidden rounded-full bg-zinc-900/20 dark:bg-zinc-50/20',
         className
       )}
       {...props}

@@ -18,7 +18,7 @@ function NavLinkStyled({ page, children }: NavLinkStyledTypes) {
 }
 
 function PageNav() {
-  const { balanceAmount } = useMoney()
+  const { balanceAccountAmount } = useMoney()
 
   return (
     <nav className='dark:text-white text-zinc-900'>
@@ -28,13 +28,13 @@ function PageNav() {
         </li>
 
         {/* User must add funds to their account before accessing other pages */}
-        {balanceAmount ? (
+        {balanceAccountAmount ? (
           <>
             <li>
               <NavLinkStyled page='/budget'>Budget</NavLinkStyled>
             </li>
             <li>
-              <NavLinkStyled page='/table'>Table</NavLinkStyled>
+              <NavLinkStyled page='/expenses'>Expenses</NavLinkStyled>
             </li>
           </>
         ) : null}

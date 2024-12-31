@@ -10,21 +10,20 @@ import { useExpense } from '@/context/ExpenseContext'
 import { categoriesColor } from '@/utils/colors'
 
 function ExpensesList() {
-  // Context
-  const { onTransactions } = useMoney()
+  const { onDeposits } = useMoney()
   const { expensesList, onExpensesList } = useExpense()
-
-  // State
   const [activeCell, setActiveCell] = useState<number | null>(null)
 
-  // Event handlers
   const handleExpenseUpdate = (updatedExpense: Expense, index: number) => {
     onExpensesList(prev => prev.map((exp, i) => (i === index ? updatedExpense : exp)))
   }
 
   const handleDeleteExpense = (index: number) => {
     const deletedExpensePrice = expensesList[index].price
-    onTransactions(prev => [...prev, deletedExpensePrice])
+    onDeposits(prev => ({
+      ...prev,
+      ['balance']: [...prev.balance, deletedExpensePrice],
+    }))
     onExpensesList(prev => prev.filter((_, i) => i !== index))
   }
 
@@ -38,10 +37,7 @@ function ExpensesList() {
         <DeleteBtn onDeleteExpense={() => handleDeleteExpense(i)} />
       </TableCell>
 
-      <TableCell
-        onClick={() => handleActiveCell(i)}
-        className='font-bold cursor-pointer min-w-[8rem]'
-      >
+      <TableCell onClick={() => handleActiveCell(i)} className='font-bold cursor-pointer'>
         {activeCell === i ? (
           <form className='flex items-center'>
             <ExpenseNameInput

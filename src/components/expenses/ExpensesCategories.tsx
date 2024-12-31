@@ -3,8 +3,8 @@ import { TableHead, TableRow } from '../ui/table'
 import { initialExpenseState } from '@/utils/initialExpenseState'
 
 function ExpensesCategories() {
-  const [name, category, price] = Object.keys(initialExpenseState).map(el =>
-    capitalizeFirstLetter(el)
+  const [name, category, price] = Object.keys(initialExpenseState).map(key =>
+    capitalizeFirstLetter(key)
   )
 
   return (

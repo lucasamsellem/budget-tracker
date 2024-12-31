@@ -1,11 +1,13 @@
 import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { Expense, OnExpensesList, TotalExpensesPrice } from '@/types/Expense'
 import { createContext, ReactNode, useContext } from 'react'
+import { useMoney } from './MoneyContext'
 
 type ExpenseContextProps = {
   expensesList: Expense[]
   onExpensesList: OnExpensesList
   totalExpensesPrice: TotalExpensesPrice
+  budgetAmountLeft: number
 }
 
 type ExpenseProviderProps = {
@@ -15,10 +17,12 @@ type ExpenseProviderProps = {
 const ExpenseContext = createContext<ExpenseContextProps | undefined>(undefined)
 
 function ExpenseProvider({ children }: ExpenseProviderProps) {
+  const { budgetLimit } = useMoney()
   const [expensesList, setExpensesList] = useLocalStorage<Expense[]>('expensesList', [])
 
   // Derived state
   const totalExpensesPrice = expensesList.reduce((total, exp) => total + exp.price, 0)
+  const budgetAmountLeft = budgetLimit === null ? 0 : budgetLimit - totalExpensesPrice
 
   return (
     <ExpenseContext.Provider
@@ -26,6 +30,7 @@ function ExpenseProvider({ children }: ExpenseProviderProps) {
         expensesList,
         onExpensesList: setExpensesList,
         totalExpensesPrice,
+        budgetAmountLeft,
       }}
     >
       {children}

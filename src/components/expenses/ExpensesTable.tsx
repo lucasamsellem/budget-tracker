@@ -2,27 +2,24 @@ import { Table, TableBody, TableFooter, TableHeader } from '@/components/ui/tabl
 import ExpensesCategories from './ExpensesCategories'
 import ExpensesList from './ExpensesList'
 import FinancialSummary from './FinancialSummary'
-import { BudgetAmountLeft } from '@/types/Money'
 
-type ExpensesTableProps = {
-  budgetAmountLeft: BudgetAmountLeft
-}
-
-function ExpensesTable({ budgetAmountLeft }: ExpensesTableProps) {
+function ExpensesTable() {
   return (
-    <Table>
-      <TableHeader>
-        <ExpensesCategories />
-      </TableHeader>
+    <section>
+      <Table>
+        <TableHeader>
+          <ExpensesCategories />
+        </TableHeader>
 
-      <TableBody>
-        <ExpensesList />
-      </TableBody>
+        <TableBody>
+          <ExpensesList />
+        </TableBody>
 
-      <TableFooter>
-        <FinancialSummary budgetAmountLeft={budgetAmountLeft} />
-      </TableFooter>
-    </Table>
+        <TableFooter>
+          <FinancialSummary />
+        </TableFooter>
+      </Table>
+    </section>
   )
 }
 

@@ -1,13 +1,13 @@
-import { useLocalStorage } from '@/hooks/useLocalStorage'
 import { createContext, useContext, ReactNode } from 'react'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
+import { Accounts } from '@/types/Money'
 
 type MoneyContextProps = {
-  transactions: number[]
-  onTransactions: (value: number[] | ((prevValue: number[]) => number[])) => void
+  deposits: Accounts
+  onDeposits: (value: Accounts | ((prevValue: Accounts) => Accounts)) => void
+  balanceAccountAmount: number
   budgetLimit: number | null
   onBudgetLimit: (limitation: number | null) => void
-  balanceAmount: number
-  handleTransactions: (amount: number, isAdd: boolean) => void
 }
 
 type MoneyProviderProps = {
@@ -17,27 +17,24 @@ type MoneyProviderProps = {
 const MoneyContext = createContext<MoneyContextProps | undefined>(undefined)
 
 function MoneyProvider({ children }: MoneyProviderProps) {
-  // States
-  const [transactions, setTransactions] = useLocalStorage<number[]>('transactions', [])
+  const [deposits, setDeposits] = useLocalStorage<Accounts>('deposits', {
+    balance: [],
+    savings: [],
+  })
+
   const [budgetLimit, setBudgetLimit] = useLocalStorage<number | null>('budgetLimit', null)
 
-  // Derived state
-  const balanceAmount = transactions.reduce((acc, cur) => acc + cur, 0)
-
-  // Handlers
-  const handleTransactions = (amount: number, isAdd: boolean) => {
-    setTransactions(prev => [...prev, isAdd ? amount : -amount])
-  }
+  // Derived
+  const balanceAccountAmount = deposits.balance.reduce((acc, cur) => acc + cur, 0)
 
   return (
     <MoneyContext.Provider
       value={{
-        transactions,
-        onTransactions: setTransactions,
+        balanceAccountAmount,
         budgetLimit,
         onBudgetLimit: setBudgetLimit,
-        balanceAmount,
-        handleTransactions,
+        deposits,
+        onDeposits: setDeposits,
       }}
     >
       {children}
