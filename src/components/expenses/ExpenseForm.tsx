@@ -26,7 +26,10 @@ function ExpenseForm({ expense, onExpense }: ExpenseFormProps) {
   const { balanceAccountAmount, onDeposits } = useMoney()
   const { onExpensesList, budgetAmountLeft } = useExpense()
 
+  console.log(expense)
+
   // State
+  const [expensePriceInputValue, setExpensePriceInputValue] = useState<string>('')
   const [isAlertPopover, setIsAlertPopover] = useState<boolean>(false)
 
   // Derived
@@ -39,17 +42,18 @@ function ExpenseForm({ expense, onExpense }: ExpenseFormProps) {
     e.preventDefault()
 
     if (hasEmptyFields) return setIsAlertPopover(true)
-
-    // Then returns Shadcn's error dialog
-    if (isOverBudget || isOverBalance) return
+    if (isOverBudget || isOverBalance) return // Then returns Shadcn's error dialog
 
     onExpensesList(prev => [...prev, expense])
     onDeposits(prev => ({
       ...prev,
-      ['balance']: [...prev.balance, -expense.price],
+      balance: [...(prev.balance || []), -Number(expensePriceInputValue.replace(',', '.'))],
     }))
+
+    // Reset states
     onExpense(initialExpenseState)
-    setIsAlertPopover(false) // Reset popover state
+    setExpensePriceInputValue('')
+    setIsAlertPopover(false)
   }
 
   return (
@@ -86,13 +90,15 @@ function ExpenseForm({ expense, onExpense }: ExpenseFormProps) {
             </Select>
 
             <Input
-              value={expense.price}
+              value={expensePriceInputValue}
               type='number'
               placeholder='Price'
               onChange={e => {
+                const value = e.target.value.replace(/[^0-9.,]/g, '')
+                setExpensePriceInputValue(value.replace(',', '.'))
                 onExpense(prev => ({
                   ...prev,
-                  price: Number(e.target.value.replace(',', '.')),
+                  price: Number(value.replace(',', '.')),
                 }))
               }}
             />
