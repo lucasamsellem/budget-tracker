@@ -1,7 +1,7 @@
 import { useMoney } from '@/context/MoneyContext'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs'
-import AddTransactionInput from './AddTransactionInput'
+import DepositInput from './DepositInput'
 import useFundAccount from '@/hooks/useFundAccount'
 import colorizeAccountAmount from '@/utils/colorizeAccountAmount'
 import { FormEvent, useEffect } from 'react'
@@ -77,7 +77,7 @@ function SavingsCard() {
           </TabsList>
 
           <TabsContent value='add'>
-            <AddTransactionInput
+            <DepositInput
               inputValue={inputValue}
               onInputValue={onInputValue}
               eventHandler={e => handleFundSavingsAccount(e)}
@@ -85,7 +85,7 @@ function SavingsCard() {
           </TabsContent>
 
           <TabsContent value='withdraw'>
-            <AddTransactionInput
+            <DepositInput
               inputValue={inputValue}
               onInputValue={onInputValue}
               eventHandler={e => handleFundSavingsAccount(e)}

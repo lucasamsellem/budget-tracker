@@ -9,9 +9,7 @@ function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { balanceAccountAmount } = useMoney()
 
   // Users must fund their account to access other pages
-  if (!balanceAccountAmount) return <Navigate to={'/home'} replace />
-
-  return children
+  return balanceAccountAmount ? children : <Navigate to={'/home'} replace />
 }
 
 export default ProtectedRoute

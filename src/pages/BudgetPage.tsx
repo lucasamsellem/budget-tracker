@@ -1,4 +1,11 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import { useLocalStorage } from '@/hooks/useLocalStorage'
 import Header from '@/components/header/Header'
 import { useExpense } from '@/context/ExpenseContext'
@@ -10,6 +17,9 @@ import { Switch } from '@/components/ui/switch'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import InfoBtn from '@/components/buttons/InfoBtn'
 import BudgetSliderBar from '@/components/budget/BudgetSliderBar'
+// import { DateRange } from 'react-day-picker'
+import { Button } from '@/components/ui/button'
+// import { DatePickerWithRange } from '@/components/ui/DatePickerWithRange'
 
 function BudgetPage() {
   const { budgetLimit, onBudgetLimit } = useMoney()
@@ -17,16 +27,18 @@ function BudgetPage() {
 
   // State
   const [isChecked, setIsChecked] = useLocalStorage<boolean>('isChecked', false)
-  const [sliderValue, setSliderValue] = useState(totalExpensesPrice ?? 0)
+  const [sliderValue, setSliderValue] = useState<number>(totalExpensesPrice ?? 0)
+  // const [date, setDate] = useState<DateRange | undefined>(undefined)
 
+  // Derived
+  // const formattedDate = date
+  //   ? Object.values(date).map(range => range?.toLocaleDateString() || 'Invalid date')
+  //   : ['Invalid date', 'Invalid date']
+
+  // Event
   function handleChecked() {
     setIsChecked(prev => {
-      if (!prev) {
-        setSliderValue(totalExpensesPrice) // Reset to totalExpensesPrice when toggled again
-      } else {
-        onBudgetLimit(null) // Clear budget limit when disabling
-      }
-
+      !prev ? setSliderValue(totalExpensesPrice) : onBudgetLimit(null)
       return !prev
     })
   }
@@ -59,17 +71,35 @@ function BudgetPage() {
           </CardHeader>
 
           {isChecked && (
-            <CardContent className='flex flex-col gap-y-4 items-center p-6'>
+            <CardContent className='flex flex-col gap-y-10 items-center p-6'>
               {budgetLimit ? (
-                <h4>
-                  Limit: <strong className='text-orange text-lg'>{budgetLimit}€</strong>
-                </h4>
+                <>
+                  <h4>
+                    Limit: <strong className='text-orange text-lg'>{budgetLimit}€</strong>
+                  </h4>
+                  {/* {date && (
+                    <h5 className='text-sm'>
+                      From <strong>{formattedDate[0]}</strong> to{' '}
+                      <strong>{formattedDate[1]}</strong>
+                    </h5>
+                  )} */}
+                </>
               ) : (
-                <BudgetSliderBar
-                  sliderDefaultValue={totalExpensesPrice ?? 0}
-                  sliderValue={sliderValue}
-                  onSliderValue={setSliderValue}
-                />
+                <>
+                  <BudgetSliderBar
+                    sliderDefaultValue={totalExpensesPrice ?? 0}
+                    sliderValue={sliderValue}
+                    onSliderValue={setSliderValue}
+                  />
+
+                  {/* <DatePickerWithRange date={date} onDate={setDate} /> */}
+
+                  <CardFooter className='w-full p-0'>
+                    <Button className='w-full' onClick={() => onBudgetLimit(sliderValue)}>
+                      Confirm
+                    </Button>
+                  </CardFooter>
+                </>
               )}
             </CardContent>
           )}

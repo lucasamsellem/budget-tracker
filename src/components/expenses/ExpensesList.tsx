@@ -46,7 +46,6 @@ function ExpensesList() {
               expense={exp}
               onExpenseUpdate={updatedExp => handleExpenseUpdate(updatedExp, i)}
             />
-
             <CheckButton isDisabled={exp.name === ''} type='submit' className='size-6 ml-1' />
           </form>
         ) : (

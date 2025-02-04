@@ -14,11 +14,11 @@ import { ExpenseProvider } from './context/ExpenseContext'
 // Livret A ? ✔️ Must run when on other page
 
 // établir plage temporelle pour définir budget
+// Expliquer pourquoi totalExpensesPrice est la somme par défaut lorsqu'on définit un bdget
 // Code refactoring add/withdraw TabsList
 // Dates d'ajout des dépenses
 // Impossible de retirer l'argent du compte si inféireur au budget limit
 // Inputs number
-// Select currency
 
 function App() {
   return (

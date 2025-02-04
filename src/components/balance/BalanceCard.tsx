@@ -1,7 +1,7 @@
 import { useMoney } from '@/context/MoneyContext'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs'
-import AddTransactionInput from './AddTransactionInput'
+import DepositInput from './DepositInput'
 import useFundAccount from '@/hooks/useFundAccount'
 import { FormEvent } from 'react'
 import colorizeAccountAmount from '@/utils/colorizeAccountAmount'
@@ -45,7 +45,7 @@ function BalanceCard() {
             </TabsList>
 
             <TabsContent value='add'>
-              <AddTransactionInput
+              <DepositInput
                 inputValue={inputValue}
                 onInputValue={onInputValue}
                 eventHandler={e => handleFundBalanceAccount(e)}
@@ -54,7 +54,7 @@ function BalanceCard() {
 
             {balanceAccountAmount ? (
               <TabsContent value='withdraw'>
-                <AddTransactionInput
+                <DepositInput
                   inputValue={inputValue}
                   onInputValue={onInputValue}
                   eventHandler={e => handleFundBalanceAccount(e)}

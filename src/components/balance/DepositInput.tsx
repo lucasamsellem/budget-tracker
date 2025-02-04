@@ -1,19 +1,14 @@
 import { Input } from '../ui/input'
 import CheckButton from '../buttons/CheckButton'
 
-type AddTransactionInputProps = {
+type DepositInputProps = {
   inputValue: string
   onInputValue: React.Dispatch<React.SetStateAction<string>>
   eventHandler?: (e: React.FormEvent) => void
   withdrawRef?: React.MutableRefObject<null>
 }
 
-function AddTransactionInput({
-  inputValue,
-  onInputValue,
-  eventHandler,
-  withdrawRef,
-}: AddTransactionInputProps) {
+function DepositInput({ inputValue, onInputValue, eventHandler, withdrawRef }: DepositInputProps) {
   return (
     <form className='flex gap-2'>
       <Input
@@ -31,4 +26,4 @@ function AddTransactionInput({
   )
 }
 
-export default AddTransactionInput
+export default DepositInput

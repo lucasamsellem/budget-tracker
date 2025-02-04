@@ -11,7 +11,7 @@ function HomePage() {
     <>
       <Header />
 
-      <Main className={`grid ${balanceAccountAmount ? 'grid-cols-2' : ''}`}>
+      <Main className={`sm:grid ${balanceAccountAmount ? 'grid-cols-2' : ''}`}>
         <BalanceCard />
         <SavingsCard />
       </Main>
